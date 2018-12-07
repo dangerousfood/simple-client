@@ -79,6 +79,7 @@ class App extends Component {
   }
 
   async updateNumber() {
+    await this.state.contractSimpleStorage.methods.setFavorite(this.state.luckyNumber).send()
     alert('Updated')
   }
 
@@ -102,7 +103,7 @@ class App extends Component {
             className={classes.textField}
             margin="normal"
           />
-          <Button size="large" onClick={this.updateNumber}>DO IT!</Button>
+          <Button size="large" onClick={this.updateNumber.bind(this)}>DO IT!</Button>
         </header>
       </div>
     )
