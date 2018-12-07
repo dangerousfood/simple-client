@@ -3,6 +3,7 @@ import logo from './logo.svg'
 import Web3 from 'web3'
 import { withStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
+import Button from '@material-ui/core/Button'
 
 import './App.css'
 
@@ -77,6 +78,10 @@ class App extends Component {
     })
   }
 
+  async updateNumber() {
+    alert('Updated')
+  }
+
   render() {
     const {
       classes,
@@ -97,6 +102,7 @@ class App extends Component {
             className={classes.textField}
             margin="normal"
           />
+          <Button size="large" onClick={this.updateNumber}>DO IT!</Button>
         </header>
       </div>
     )
