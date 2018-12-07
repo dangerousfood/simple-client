@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField'
 
 import './App.css'
 
-import 'SimpleStorage' from './SimpleStorage.json'
+import SimpleStorage from './SimpleStorage.json'
 
 const styles = theme => ({
   textField: {
@@ -24,7 +24,7 @@ class App extends Component {
   state = {
     web3Connected: false,
     web3Account: undefined,
-    luckyNumber: undefined,
+    luckyNumber: '',
   }
 
   async connectToWeb3() {
@@ -71,6 +71,12 @@ class App extends Component {
       return console.error('Failed to connect to web3, not able to fetch data')
   }
 
+  handleChange = name => event => {
+    this.setState({
+      [name]: event.target.value,
+    })
+  }
+
   render() {
     const {
       classes,
@@ -83,16 +89,14 @@ class App extends Component {
           <p>
             Account connected: {this.state.web3Account}
           </p>
-          <p>
-            <TextField
-              required
-              label="Your Lucky Number"
-              value={this.state.luckyNumber}
-              onChange={this.handleChange('luckyNumber')}
-              className={classes.textField}
-              margin="normal"
-            />
-          </p>
+          <TextField
+            required
+            label="Your Lucky Number"
+            value={this.state.luckyNumber}
+            onChange={this.handleChange('luckyNumber')}
+            className={classes.textField}
+            margin="normal"
+          />
         </header>
       </div>
     )
