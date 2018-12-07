@@ -1,13 +1,30 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react'
+import logo from './logo.svg'
 import Web3 from 'web3'
+import { withStyles } from '@material-ui/core/styles'
+import TextField from '@material-ui/core/TextField'
 
-import './App.css';
+import './App.css'
+
+import 'SimpleStorage' from './SimpleStorage.json'
+
+const styles = theme => ({
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 200,
+  },
+})
+
+const config = {
+  addressSimpleStorage: '',
+}
 
 class App extends Component {
   state = {
     web3Connected: false,
     web3Account: undefined,
+    luckyNumber: undefined,
   }
 
   async connectToWeb3() {
@@ -41,6 +58,13 @@ class App extends Component {
     } 
   }
 
+  async loadContracts() {
+    const market = new window.web3.eth.Contract(SimpleStorage, config.addressSimpleStorage)
+    this.setState({
+      contractSimpleStorage: market,
+    })
+  }
+
   async componentDidMount() {
     await this.connectToWeb3()
     if (!this.state.web3Connected)
@@ -48,6 +72,10 @@ class App extends Component {
   }
 
   render() {
+    const {
+      classes,
+    } = this.props
+
     return (
       <div className="App">
         <header className="App-header">
@@ -55,10 +83,21 @@ class App extends Component {
           <p>
             Account connected: {this.state.web3Account}
           </p>
+          <p>
+            <TextField
+              required
+              label="Your Lucky Number"
+              value={this.state.luckyNumber}
+              onChange={this.handleChange('luckyNumber')}
+              className={classes.textField}
+              margin="normal"
+            />
+          </p>
         </header>
       </div>
-    );
+    )
   }
 }
 
-export default App;
+const AppWrapped = withStyles(styles)(App)
+export default AppWrapped
