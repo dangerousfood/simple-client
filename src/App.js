@@ -18,7 +18,7 @@ const styles = theme => ({
 })
 
 const config = {
-  addressSimpleStorage: '',
+  addressSimpleStorage: 'ADD_ADDRESS_HERE'
 }
 
 class App extends Component {
@@ -79,7 +79,8 @@ class App extends Component {
   }
 
   async updateNumber() {
-    await this.state.contractSimpleStorage.methods.setFavorite(this.state.luckyNumber).send()
+    await this.loadContracts();
+    await this.state.contractSimpleStorage.methods.setFavorite(this.state.luckyNumber).send({from: this.state.web3Account})
     alert('Updated')
   }
 
