@@ -26,6 +26,7 @@ class App extends Component {
     web3Connected: false,
     web3Account: undefined,
     luckyNumber: '',
+    remoteLuckyNumber: '',
   }
 
   async connectToWeb3() {
@@ -78,10 +79,18 @@ class App extends Component {
     })
   }
 
-  async updateNumber() {
+  async setNumber() {
     await this.loadContracts();
     await this.state.contractSimpleStorage.methods.setFavorite(this.state.luckyNumber).send({from: this.state.web3Account})
     alert('Updated')
+  }
+
+  async getNumber() {
+    await this.loadContracts();
+    let remoteNumber = await this.state.contractSimpleStorage.methods.getFavorite().call()
+    this.setState({
+      remoteLuckyNumber: remoteNumber,
+    })
   }
 
   render() {
@@ -104,7 +113,15 @@ class App extends Component {
             className={classes.textField}
             margin="normal"
           />
-          <Button size="large" onClick={this.updateNumber.bind(this)}>DO IT!</Button>
+          <Button size="large" onClick={this.setNumber.bind(this)}>Update</Button>
+          <TextField
+            disabled
+            value={this.state.remoteLuckyNumber}
+            onChange={this.handleChange('remoteLuckyNumber')}
+            className={classes.textField}
+            margin="normal"
+          />
+          <Button size="large" onClick={this.getNumber.bind(this)}>Check Number</Button>
         </header>
       </div>
     )
