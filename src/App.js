@@ -87,7 +87,7 @@ class App extends Component {
 
   async getNumber() {
     await this.loadContracts();
-    let remoteNumber = await this.state.contractSimpleStorage.methods.getFavorite().call()
+    let remoteNumber = await this.state.contractSimpleStorage.methods.getFavorite().call({from: this.state.web3Account})
     this.setState({
       remoteLuckyNumber: remoteNumber,
     })
